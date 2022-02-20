@@ -1,0 +1,48 @@
+1. Docker enables you to have a Virtual mACHINE as a container where all your dependencies can be installed from localhost and deployed easily to a liver server.
+
+2. It makes the installation of software super easy without worrying about setup or dependencies
+
+3. It is a platform or an ecosystem around creating and running a container VIz:Docker Client,Server,Machine,Images,Hub and compose
+
+- Image: a single file with all the dependencies & config needed to run a prog.
+-Container: Instance of an image, runs a program. Its a program with its own set of isolated hardware resources
+
+Commands:
+
+1. docker system prune (Clears or deletes every container)
+2. docker create IMAGE-NAME XTRA-COMMAND
+3. docker create busybox echo hi man
+4. docker start -a CONTAINER-ID  (starts container & prints out attached output)
+5. docker logs CONTAINER-ID  (prints out all outputs of a container)
+6. docker stop CONTAINER-ID (allows for clean up)
+7. docker kill CONTAINER-ID (stops immediately)
+8. docker exec -it CONTAINER-ID sh (run a command in another terminal while the container is running in another terminal n/b: ctrl + d takes you out!)
+9. docker ps (shows running container)
+10. docker ps -a (shows all containers ever created)
+
+
+Creating a custom Docker Image:
+
+Dockerfile--->DockerClient----->DockerServer----->Usable Image
+DockerImage----->Container
+docker build .
+
+n/b: Edit your docker file by adding new changes downwards on the line
+
+
+=================== tagging an image ===============
+
+docker build -t DOCKER-ID/REPO-NAME:VERSION .
+Eg: docker build -t droomwork/my-first-image:latest .
+docker run droomwork/my-first-image
+
+==================== Container Port Forwarding ==========
+# Just a blockage to only incoming request into the container
+docker run -p 8080:8080 droomwork/nodejs-container
+docker run -p [anyport from out]:[container port] droomwork/nodejs-container
+
+======= Run and write or dubug in containers shell ============
+docker run -it CONTAINER-ID sh
+
+============ View a running container log ========
+docker logs [container id]   

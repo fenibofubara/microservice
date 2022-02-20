@@ -1,0 +1,41 @@
+1. A  microservice contains all the router,middleware,bussines logic and database needed to execute a feature
+
+2. Data management between the services is the biggest  PROBLEM in MS
+3. Importants
+- Each service gets its own database if (it needs one) [Database Per Service]
+- Services will never ever reach into another services database
+  Why?
+  - So that we can scale only the database whose service needs scaling rather than scaling the entire database bcos one service needs scaling
+  - If the DB of one service crashes, it should only affect that one service rather than both the dependent service. This increases service uptime of the entire app
+
+4 Why Database Per Service
+- So each service can run independently of the other services
+- DB schema might change unexpectedly
+- Some service might function better with a different kind of db (Sql,Nosql)
+
+5. Strategies For Managing Data Between MicroServices
+- Sync: Communication via direct request
+- Async: communication among services via events.Here a central event bus is used to receive and dispatch data as events between each services. Where each service is maintaing its own database
+
+
+
+
+REQUEST MINIMALIZATION STRATEGIES
+
+1. An event bus (RabbitMQ,Redis) is a starategy to minimize request between services.
+2. It primarily receives events (data of any type) between services and then dispatches it to all other services including the one that emits the event.
+
+N/B: @ Query service: ensure to minimize the number of query or logic done in it. Direct logics to specific services involved.
+
+
+How to Keep All services in sync?
+1. Store all event from eventstore in an event store
+
+Load Balancing:
+Means creating virtual instances of a machine and determining which instance a request will hit in a situation whee the orignal service is over burdened
+
+
+DOCKER & KUBERNETES
+1. Docker enables you to have a Virtual mACHINE as a container where all your dependencies can be installed from localhost and deployed easily to a liver server.
+
+2. Kubernetes is a tool for running a bunch of diffrent docker containers and make communication between those services easy . It makes communication easy and straight foward. Launching and scaling the number of copies of VM bcomes easy with kubernetes

@@ -1,0 +1,2 @@
+Manually create the package.json file
+n/b: the node_modules and all is inside the container not on the file directory

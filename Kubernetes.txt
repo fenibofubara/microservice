@@ -1,0 +1,28 @@
+ ==============================  Welcome ==========================
+
+Kubernetes is to be used whenever there is more then one container running.
+Kubernetes, also known as K8s, is an open-source system for automating deployment, scaling, and management of containerized applications.
+
+1. Kubernetes Cluster: Is a collection of nodes +  a master to manage them
+2. node: A virtual machine that will run our containers
+3. Pod: More or less a running container. Technically  a pod can run more than one container
+4. deployment: Monitors a set of pods, make sure they are running and restart them if they crash
+5. Service: Provides an easy to remember URL to access a running containeer(pods)
+6 N/B: Create all your object(deployment,pods & services) inside your config files
+
+======= Start your Kubernetes server =====
+Unable to connect to the server: dial tcp 192.168.49.2:8443: connect: no route to host
+minikube start
+
+=========== why droomwork/posts:0.0.1 ==
+we tagged the image with a specific version(0.0.1) so that docker will not assume the version to be 'latest' and then route to docker hub to find it when we have not yet published it to dockerhub which will resut to error
+
+
+=======================  Common Commands  ======================================
+
+kubectl apply -f file-name.yaml  => Creates a pod out of a config file
+kubectl get pods  => view all running pods
+kubectl exec -it <pod name from config file> sh  => Run any shell command over a running pod
+kubectl logs [pod_name]  => Prints out logs from the given pod
+kubectl delete pod [pod_name]  =>manually delete a pod
+kubectl describe pod posts  ==> Prints out some information about a pod
