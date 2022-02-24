@@ -1,0 +1,1 @@
+Pods are not created manually, they are created as a deployment so if it crashes, the deployment can get them up again

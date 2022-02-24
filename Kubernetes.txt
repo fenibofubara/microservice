@@ -6,13 +6,18 @@ Kubernetes, also known as K8s, is an open-source system for automating deploymen
 1. Kubernetes Cluster: Is a collection of nodes +  a master to manage them
 2. node: A virtual machine that will run our containers
 3. Pod: More or less a running container. Technically  a pod can run more than one container
-4. deployment: Monitors a set of pods, make sure they are running and restart them if they crash
+4. deployment: Monitors a set of pods, make sure they are running and restart them if they crash or are deleted (works like pm2)
 5. Service: Provides an easy to remember URL to access a running containeer(pods)
 6 N/B: Create all your object(deployment,pods & services) inside your config files
 
 ======= Start your Kubernetes server =====
 Unable to connect to the server: dial tcp 192.168.49.2:8443: connect: no route to host
-minikube start
+1. minikube start
+If you are using a vm driver, you will need to tell Kubernetes to use the Docker daemon running inside of the single node cluster instead of the host.
+
+Run the following command on the root directory*:
+
+eval $(minikube docker-env)
 
 =========== why droomwork/posts:0.0.1 ==
 we tagged the image with a specific version(0.0.1) so that docker will not assume the version to be 'latest' and then route to docker hub to find it when we have not yet published it to dockerhub which will resut to error
@@ -21,8 +26,52 @@ we tagged the image with a specific version(0.0.1) so that docker will not assum
 =======================  Common Commands  ======================================
 
 kubectl apply -f file-name.yaml  => Creates a pod out of a config file
+kubectl apply -f . => Creates a pod out multiple config file
+
 kubectl get pods  => view all running pods
 kubectl exec -it <pod name from config file> sh  => Run any shell command over a running pod
 kubectl logs [pod_name]  => Prints out logs from the given pod
 kubectl delete pod [pod_name]  =>manually delete a pod
 kubectl describe pod posts  ==> Prints out some information about a pod
+
+
+===================== Deployment Commands================
+1. Manages a series of pods
+2. kubectl get deployments
+3. kubectl describe deployment [depl_name]
+4. kubectl apply -f [config file name] ---create a file out of a config file
+5. kubectl delete deployment [deply_name]
+
+============ Updating Deployment =============
+1. The deployment must be using the  'latest' tag in the manifest or config file
+1. After codebase update
+3. build the image: docker build -t droomwork/posts .
+2. Login: sudo docker login
+5. push to docker hub: docker push droomwork/posts
+6. kubectl rollout restart deployment [deployment-name]
+
+
+
+================ Networking With Services  ====================
+Servies enables us to communicate with different pods 
+1. Cluster IP: Sets up an easy to remember URL to access a pod.Only exposes pods in the cluster
+2. Node Port: Makes a pod accessible from outside the cluster.Usually used for dev purposes
+2. Load Balancer: Makes a pod accessible from outside the cluster. This is the right way to expose a pod to outside the world.
+4. External Name: Redirests a cluster request to a CNAME, dont worry about this one
+
+============ Service Commands ===========
+1. kubectl apply -f posts-service.yaml
+2. kubectl get services
+==== Access pod on linux using NodePort during development via a url ========
+3. <some_ip>:3xxxxx/posts     where <some_ip> = minikube ip, 3xxxx = kubectl get services ==> 4000:30606/TCP. where 30606 is the randomly generated port
+
+4. kubectl apply -f event-bus-deployment.yaml
+
+
+
+=============== Load Balancer  ===========
+1. Load Balancer Service: Tell Kubernetes to reach out to its provider(Azure/GC/AWS) and provision a load balancer. Gets traffic in to a single pod (An Ingress Controller)
+2. Ingress/Ingress Controller: A pod with a set of routing rules to distribute traffic to other services
+
+====== Install Ingress Nginx [minikube](creates load balancer service + ingress for us) ==========
+minikube addons enable ingress

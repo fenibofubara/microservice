@@ -19,12 +19,15 @@ Commands:
 8. docker exec -it CONTAINER-ID sh (run a command in another terminal while the container is running in another terminal n/b: ctrl + d takes you out!)
 9. docker ps (shows running container)
 10. docker ps -a (shows all containers ever created)
+11. sudo docker login
+12. docker push droomwork/event-bus
 
 
 Creating a custom Docker Image:
 
 Dockerfile--->DockerClient----->DockerServer----->Usable Image
 DockerImage----->Container
+
 docker build .
 
 n/b: Edit your docker file by adding new changes downwards on the line
