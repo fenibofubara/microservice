@@ -8,7 +8,7 @@ Kubernetes, also known as K8s, is an open-source system for automating deploymen
 3. Pod: More or less a running container. Technically  a pod can run more than one container
 4. deployment: Monitors a set of pods, make sure they are running and restart them if they crash or are deleted (works like pm2)
 5. Service: Provides an easy to remember URL to access a running containeer(pods)
-6 N/B: Create all your object(deployment,pods & services) inside your config files
+6 N/B: Create all your objects(deployment,pods & services) inside your config files
 
 ======= Start your Kubernetes server =====
 Unable to connect to the server: dial tcp 192.168.49.2:8443: connect: no route to host
@@ -55,7 +55,7 @@ kubectl describe pod posts  ==> Prints out some information about a pod
 ================ Networking With Services  ====================
 Servies enables us to communicate with different pods 
 1. Cluster IP: Sets up an easy to remember URL to access a pod.Only exposes pods in the cluster
-2. Node Port: Makes a pod accessible from outside the cluster.Usually used for dev purposes
+2. Node Port: Makes a pod accessible from outside the cluster.Usually used for dev purposes (eg:postman)
 2. Load Balancer: Makes a pod accessible from outside the cluster. This is the right way to expose a pod to outside the world.
 4. External Name: Redirests a cluster request to a CNAME, dont worry about this one
 
@@ -66,6 +66,7 @@ Servies enables us to communicate with different pods
 3. <some_ip>:3xxxxx/posts     where <some_ip> = minikube ip, 3xxxx = kubectl get services ==> 4000:30606/TCP. where 30606 is the randomly generated port
 
 4. kubectl apply -f event-bus-deployment.yaml
+5. kubectl apply -f .
 
 
 
@@ -75,3 +76,17 @@ Servies enables us to communicate with different pods
 
 ====== Install Ingress Nginx [minikube](creates load balancer service + ingress for us) ==========
 minikube addons enable ingress
+
+==========  N/B on Ingress-service.yaml===========
+At ingress service config file, the 'host' parameter there is to let ingress know which domain name the request/response belongs to
+
+When on development, you want to tweak things so the host will always see any domain routed to it on the host parameter as localhost.
+
+Navigate to: code /etc/hosts, add this: 192.168.49.2 mydomain.com, where 192.168.49.2 ==> is gotten from this code ---> minikube ip
+
+http://posts.com/posts ==> This url is based on loadbalancer, with it a request will be directed to the right microservice which will direct it to the right pod through the clusterip service in the 'ingress-service.yaml' config file
+
+
+=========== Unique Route Patch ==========
+
+

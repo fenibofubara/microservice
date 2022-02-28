@@ -1,0 +1,16 @@
+N/B: kubectl apply -f . to run all the config files when you dont want to use skaffold
+========== Scaffold =====================
+1. Automates many task in Kubernetes dev environment
+2. Makes it easy to update code in a running pod
+3. Makes it really easy to create and delete all objects tied to a project at once
+
+confirm installation of Scaffold by entering : scaffold
+
+=========== How it works ========
+1. Its 'apply' all the files in >>infra/k8s when it is started
+2. Its 'apply' the files whenever there is any change in any of the files
+3. Deletes all the objects related to all the files in >>infra/k8s when it is stopped. So if you are working on multiple microservice projects, when stopped, it cleans up all the objects in a particular ms and lets you work on other projects
+
+===========Start skaffold ===
+After completing the skaffold.yaml config, run skaffold dev on your terminal, this might take alot of time.
+1. skaffold dev

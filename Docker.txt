@@ -37,7 +37,7 @@ n/b: Edit your docker file by adding new changes downwards on the line
 
 docker build -t DOCKER-ID/REPO-NAME:VERSION .
 Eg: docker build -t droomwork/my-first-image:latest .
-docker run droomwork/my-first-image
+docker run droomwork/my-first-image  (after building an image ,always run to test if its owk)
 
 ==================== Container Port Forwarding ==========
 # Just a blockage to only incoming request into the container
